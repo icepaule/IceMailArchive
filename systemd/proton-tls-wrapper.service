@@ -1,0 +1,13 @@
+[Unit]
+Description=IceMailArchive - Proton Bridge TLS Wrapper (STARTTLS->SSL, Port 11143)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/socat OPENSSL-LISTEN:11143,fork,reuseaddr,cert=/etc/ssl/private/proton-tls.crt,key=/etc/ssl/private/proton-tls.key,verify=0 TCP:127.0.0.1:1143
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,30 @@
+title: IceMailArchive
+description: Self-hosted Email-Archivierung mit OpenArchiver, Proton Bridge, Maildrop und Windows-Integration
+remote_theme: pages-themes/minimal@v0.2.0
+plugins:
+  - jekyll-remote-theme
+
+# GitHub Pages
+baseurl: "/IceMailArchive"
+url: "https://icepaule.github.io"
+
+# Navigation (wird im Layout genutzt)
+nav:
+  - title: Startseite
+    url: /
+  - title: Installation
+    url: /installation
+  - title: Konfiguration
+    url: /configuration
+  - title: Architektur
+    url: /architecture
+  - title: Proton Bridge
+    url: /proton-bridge
+  - title: Maildrop
+    url: /maildrop
+  - title: Windows-Import
+    url: /windows-import
+  - title: NFS-Migration
+    url: /nfs-migration
+  - title: Troubleshooting
+    url: /troubleshooting

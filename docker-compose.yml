@@ -1,0 +1,114 @@
+###############################################################################
+# IceMailArchive - Docker Compose Stack
+# ============================================================================
+# Vollstaendige Email-Archivierungsloesung basierend auf OpenArchiver
+#
+# Komponenten:
+#   - OpenArchiver    (Frontend + Backend)
+#   - PostgreSQL 17   (Datenbank)
+#   - Valkey 8        (Redis-kompatibler Cache)
+#   - Meilisearch     (Volltextsuche)
+#   - Apache Tika     (Anhang-Textextraktion)
+#
+# Starten:  docker compose up -d
+# Stoppen:  docker compose down
+# Logs:     docker compose logs -f open-archiver
+###############################################################################
+
+services:
+  open-archiver:
+    image: logiclabshq/open-archiver:latest
+    container_name: open-archiver
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - .env
+    environment:
+      # Fuer Proton Bridge TLS-Wrapper (selbstsigniertes Zertifikat)
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - NODE_EXTRA_CA_CERTS=/etc/ssl/certs/proton-tls.crt
+    extra_hosts:
+      - "postgres:127.0.0.1"
+      - "valkey:127.0.0.1"
+      - "meilisearch:127.0.0.1"
+      - "tika:127.0.0.1"
+      # IPv4 erzwingen fuer Gmail IMAP (falls IPv6 nicht geroutet wird)
+      # IP mit: dig +short imap.gmail.com A | head -1  ermitteln
+      # - "imap.gmail.com:142.250.x.x"
+    volumes:
+      - ${STORAGE_HOST_PATH:-./storage}:/var/data/open-archiver
+      # CA-Zertifikat fuer Proton Bridge TLS-Wrapper (optional)
+      - ${PROTON_CA_CERT:-./proton-tls.crt}:/etc/ssl/certs/proton-tls.crt:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_started
+      meilisearch:
+        condition: service_started
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: oa-postgres
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:5432:5432'
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-open_archive}
+      POSTGRES_USER: ${POSTGRES_USER:-archiver}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-archiver}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - oa-net
+
+  valkey:
+    image: valkey/valkey:8-alpine
+    container_name: oa-valkey
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:6379:6379'
+    command: valkey-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - valkeydata:/data
+    networks:
+      - oa-net
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.15
+    container_name: oa-meilisearch
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:7700:7700'
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY}
+    volumes:
+      - meilidata:/meili_data
+    networks:
+      - oa-net
+
+  tika:
+    image: apache/tika:3.2.2.0-full
+    container_name: oa-tika
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:9998:9998'
+    networks:
+      - oa-net
+
+volumes:
+  pgdata:
+    driver: local
+  valkeydata:
+    driver: local
+  meilidata:
+    driver: local
+
+networks:
+  oa-net:
+    driver: bridge

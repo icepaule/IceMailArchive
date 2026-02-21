@@ -1,0 +1,18 @@
+[Unit]
+Description=IceMailArchive - Maildrop Watcher (ZIP/PST/MBOX Auto-Import)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/maildrop-watcher.sh
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+# Optional: Zugangsdaten fuer OpenArchiver API
+# Environment=OA_EMAIL=admin@example.com
+# Environment=OA_PASSWORD=changeme
+
+[Install]
+WantedBy=multi-user.target

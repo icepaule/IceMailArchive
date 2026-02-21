@@ -1,0 +1,49 @@
+###############################################################################
+# IceMailArchive - Proton Bridge (Optional)
+# ============================================================================
+# Lokaler IMAP/SMTP-Proxy fuer ProtonMail.
+#
+# Proton Bridge stellt verschluesselte ProtonMail-Konten ueber
+# Standard IMAP (Port 1143) und SMTP (Port 1025) bereit.
+#
+# Starten:  docker compose -f docker-compose.proton.yml up -d
+# Login:    docker exec -it proton-bridge bash
+#           printf "login\nuser@protonmail.com\nPASSWORD\n" > /protonmail/faketty
+#
+# WICHTIG: Nach dem Login werden die IMAP-Credentials angezeigt.
+#          Das Bridge-Passwort ist NICHT das ProtonMail-Passwort!
+###############################################################################
+
+services:
+  proton-bridge:
+    image: shenxn/protonmail-bridge:latest
+    container_name: proton-bridge
+    restart: unless-stopped
+    entrypoint: ["/bin/bash", "-lc"]
+    command:
+      - |
+        set -e
+        # socat-Proxies fuer IMAP (143->1143) und SMTP (25->1025)
+        socat TCP-LISTEN:25,fork TCP:127.0.0.1:1025 &
+        socat TCP-LISTEN:143,fork TCP:127.0.0.1:1143 &
+        # Named pipe fuer CLI-Interaktion
+        rm -f /protonmail/faketty
+        mkfifo /protonmail/faketty
+        tail -f /dev/null > /protonmail/faketty &
+        # Bridge direkt starten (nicht den Launcher, der braucht GUI-Libs)
+        cat /protonmail/faketty | /usr/lib/protonmail/bridge/bridge --cli
+    ports:
+      - "127.0.0.1:1143:143"
+      - "127.0.0.1:1025:25"
+    volumes:
+      - proton-config:/root/.config/protonmail/bridge
+      - proton-gpg:/root/.gnupg
+      - proton-pass:/root/.password-store
+
+volumes:
+  proton-config:
+    driver: local
+  proton-gpg:
+    driver: local
+  proton-pass:
+    driver: local

@@ -1,0 +1,41 @@
+# Environment / Secrets
+.env
+*.key
+*.pem
+ca.crt
+ca.key
+
+# TLS certs (generated locally)
+proton-tls.crt
+proton-tls.key
+proton-tls.csr
+
+# Runtime
+*.log
+*.pid
+*.lock
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker volumes (don't commit data)
+data/
+storage/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Windows PowerShell output
+outlook-accounts*.json
+outlook-credentials*.json
+
+# Jekyll build output
+docs/_site/
+docs/.jekyll-cache/
+docs/.sass-cache/
