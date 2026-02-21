@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 420">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrowhead-right" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Dark card background -->
+  <rect x="0" y="0" width="580" height="420" rx="16" fill="#1e293b"/>
+
+  <!-- Top: Blue box "Windows PC (Outlook installiert)" -->
+  <rect x="30" y="24" width="220" height="44" rx="8" fill="#2563eb"/>
+  <text x="140" y="51" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Windows PC</text>
+  <text x="140" y="64" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#dbeafe">(Outlook installiert)</text>
+
+  <!-- Script name label -->
+  <text x="140" y="92" text-anchor="middle" font-family="sans-serif" font-size="12" font-style="italic" fill="#a5b4fc">Export-OutlookToOpenArchiver.ps1</text>
+
+  <!-- Vertical line from blue box down to branch point -->
+  <line x1="140" y1="68" x2="140" y2="100" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Branch point at y=108 -->
+  <!-- Vertical line continuing down from branch area -->
+  <line x1="140" y1="100" x2="140" y2="148" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- === Branch 1: Outlook COM === -->
+  <!-- Horizontal line from main flow to info box 1 -->
+  <line x1="140" y1="148" x2="270" y2="148" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead-right)"/>
+  <!-- Info box 1 -->
+  <rect x="280" y="132" width="270" height="32" rx="8" fill="#475569"/>
+  <text x="415" y="148" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="11" fill="#ffffff">Outlook COM-Objekt</text>
+  <text x="415" y="160" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="10" fill="#cbd5e1">Account-Liste</text>
+
+  <!-- Vertical line to branch 2 -->
+  <line x1="140" y1="148" x2="140" y2="198" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- === Branch 2: Windows Registry === -->
+  <line x1="140" y1="198" x2="270" y2="198" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead-right)"/>
+  <!-- Info box 2 -->
+  <rect x="280" y="182" width="270" height="32" rx="8" fill="#475569"/>
+  <text x="415" y="198" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="11" fill="#ffffff">Windows Registry</text>
+  <text x="415" y="210" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="10" fill="#cbd5e1">IMAP-Einstellungen</text>
+
+  <!-- Vertical line to branch 3 -->
+  <line x1="140" y1="198" x2="140" y2="248" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- === Branch 3: Benutzer-Eingabe === -->
+  <line x1="140" y1="248" x2="270" y2="248" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead-right)"/>
+  <!-- Info box 3 -->
+  <rect x="280" y="232" width="270" height="32" rx="8" fill="#475569"/>
+  <text x="415" y="248" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="11" fill="#ffffff">Benutzer-Eingabe</text>
+  <text x="415" y="260" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="10" fill="#cbd5e1">Passwoerter</text>
+
+  <!-- Small arrow-source indicators (dots) at branch points -->
+  <circle cx="140" cy="148" r="3" fill="#94a3b8"/>
+  <circle cx="140" cy="198" r="3" fill="#94a3b8"/>
+  <circle cx="140" cy="248" r="3" fill="#94a3b8"/>
+
+  <!-- Vertical arrow down from branches to bottom box -->
+  <line x1="140" y1="248" x2="140" y2="340" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- "REST API (HTTP)" label on the arrow -->
+  <rect x="60" y="284" width="160" height="24" rx="6" fill="#1e293b"/>
+  <text x="140" y="300" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#cbd5e1">REST API (HTTP)</text>
+
+  <!-- Bottom: Green box "OpenArchiver Backend" -->
+  <rect x="30" y="350" width="220" height="48" rx="8" fill="#059669"/>
+  <text x="140" y="374" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#ffffff">OpenArchiver Backend</text>
+  <text x="140" y="390" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#d1fae5">(POST /v1/ingestion-sources)</text>
+
+</svg>

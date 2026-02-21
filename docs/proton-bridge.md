@@ -13,37 +13,9 @@ title: Proton Bridge
 
 ProtonMail verschluesselt Emails Ende-zu-Ende - IMAP-Zugriff ist nur ueber die **Proton Bridge** moeglich. Die Bridge entschluesselt Emails lokal und stellt sie per IMAP/SMTP bereit.
 
-```
-ProtonMail Server (verschluesselt)
-       │
-       │ Proton-Protokoll
-       ▼
-┌──────────────┐
-│ Proton Bridge│    Docker Container
-│ (CLI-Modus)  │    shenxn/protonmail-bridge
-│              │
-│ IMAP: 1143   │    STARTTLS
-│ SMTP: 1025   │
-└──────┬───────┘
-       │
-       │ TCP (Klartext innerhalb localhost)
-       ▼
-┌──────────────┐
-│ socat TLS-   │    Systemd Service
-│ Wrapper      │    proton-tls-wrapper
-│              │
-│ SSL: 11143   │    Implizites SSL
-└──────┬───────┘
-       │
-       │ SSL
-       ▼
-┌──────────────┐
-│ OpenArchiver │    IMAP Source:
-│              │    Host: 127.0.0.1
-│              │    Port: 11143
-│              │    SSL: true
-└──────────────┘
-```
+<p align="center">
+  <img src="images/proton-tls-flow.svg" alt="Proton Bridge TLS-Wrapper Integration" width="400">
+</p>
 
 ---
 
@@ -164,21 +136,9 @@ docker compose restart open-archiver
 
 ## Zertifikat-Vertrauenskette
 
-```
-Lokale CA (proton-bridge-ca.crt)
-  │
-  │ signiert
-  ▼
-Server-Zertifikat (proton-tls.crt)
-  │
-  │ verwendet von
-  ▼
-socat TLS-Wrapper (:11143)
-  │
-  │ vertraut durch
-  ▼
-OpenArchiver (NODE_EXTRA_CA_CERTS=/etc/ssl/certs/proton-tls.crt)
-```
+<p align="center">
+  <img src="images/cert-trust-chain.svg" alt="Zertifikat-Vertrauenskette" width="360">
+</p>
 
 Das CA-Zertifikat wird als Docker-Volume in den OpenArchiver-Container gemountet und ueber `NODE_EXTRA_CA_CERTS` bekannt gemacht. So vertraut Node.js dem selbstsignierten Zertifikat, ohne die globale Zertifikatspruefung zu deaktivieren.
 

@@ -13,32 +13,9 @@ title: Maildrop
 
 Der Maildrop ist ein Samba/SMB-Share, in den Email-Archive per Drag&Drop abgelegt werden koennen. Ein Hintergrund-Daemon (`maildrop-watcher`) ueberwacht das Verzeichnis und importiert neue Dateien automatisch in OpenArchiver.
 
-```
-┌──────────────┐     SMB/CIFS      ┌──────────────┐
-│ Windows PC   │ ──────────────────>│ /srv/maildrop│
-│ macOS        │  \\SERVER\maildrop │              │
-│ Linux        │                    │  .zip  ✓     │
-└──────────────┘                    │  .pst  ✓     │
-                                    │  .mbox ✓     │
-                                    └──────┬───────┘
-                                           │
-                                    Scan alle 10s
-                                           │
-                                    ┌──────▼───────┐
-                                    │ maildrop-    │
-                                    │ watcher.sh   │
-                                    │              │
-                                    │ 1. Upload    │
-                                    │ 2. Import    │
-                                    │ 3. Loeschen  │
-                                    └──────┬───────┘
-                                           │
-                                    REST API (:4000)
-                                           │
-                                    ┌──────▼───────┐
-                                    │ OpenArchiver │
-                                    └──────────────┘
-```
+<p align="center">
+  <img src="images/maildrop-flow.svg" alt="Maildrop Datei-Import Workflow" width="620">
+</p>
 
 ---
 

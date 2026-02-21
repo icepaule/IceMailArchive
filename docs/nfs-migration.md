@@ -13,24 +13,9 @@ title: NFS-Migration
 
 Der Email-Speicher kann von der lokalen Festplatte auf ein NFS-Share (z.B. Synology NAS, TrueNAS) migriert werden, ohne die Docker-Konfiguration zu aendern.
 
-```
-VORHER:                              NACHHER:
-┌──────────┐                         ┌──────────┐
-│  Server   │                         │  Server   │
-│           │                         │           │
-│  /data/   │                         │  /data/   │
-│  open-    │  ──── Migration ────>   │  open-    │ ← NFS Mount
-│  archiver/│                         │  archiver/│
-│  storage/ │                         │  storage/ │
-│  (lokal)  │                         │  (NAS)    │
-└──────────┘                         └──────┬───┘
-                                            │ NFS
-                                     ┌──────▼───┐
-                                     │ Synology  │
-                                     │ TrueNAS   │
-                                     │ etc.      │
-                                     └──────────┘
-```
+<p align="center">
+  <img src="images/nfs-migration.svg" alt="NFS-Migration: Vorher (lokal) und Nachher (NAS)" width="720">
+</p>
 
 ---
 

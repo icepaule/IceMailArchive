@@ -11,41 +11,9 @@ title: Architektur
 
 ## Systemueberblick
 
-```
-                          ┌─────────────────────────┐
-                          │      Benutzer            │
-                          │  (Browser / PowerShell)  │
-                          └──────────┬──────────────┘
-                                     │
-                              Port 3000 (HTTP)
-                                     │
-                          ┌──────────▼──────────────┐
-                          │     OpenArchiver         │
-                          │  ┌───────────────────┐   │
-                          │  │    Frontend        │   │
-                          │  │    (SvelteKit)     │   │
-                          │  └────────┬──────────┘   │
-                          │           │               │
-                          │  ┌────────▼──────────┐   │
-                          │  │    Backend         │   │
-                          │  │    (Node.js)       │   │
-                          │  │    Port 4000       │   │
-                          │  └─┬──┬──┬──┬──┬─────┘   │
-                          │    │  │  │  │  │          │
-                          │    │  │  │  │  │ IMAP     │
-                          └────┼──┼──┼──┼──┼──────────┘
-                               │  │  │  │  │
-          ┌────────────────────┘  │  │  │  └──────────────────┐
-          │           ┌───────────┘  │  └──────────┐          │
-          ▼           ▼              ▼              ▼          ▼
-   ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
-   │PostgreSQL│ │  Valkey   │ │  Meili-  │ │  Apache  │ │  IMAP-   │
-   │          │ │ (Redis)   │ │  search  │ │  Tika    │ │  Server  │
-   │ Metadata │ │ Job-Queue │ │ Volltext │ │ Text-    │ │ (extern) │
-   │ Accounts │ │ Cache     │ │ Suche    │ │ Extrakt. │ │          │
-   │ :5432    │ │ :6379     │ │ :7700    │ │ :9998    │ │ :993/143 │
-   └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘
-```
+<p align="center">
+  <img src="images/system-detail.svg" alt="Systemueberblick - Benutzer, Frontend, Backend und Services" width="750">
+</p>
 
 ---
 
@@ -53,36 +21,15 @@ title: Architektur
 
 ### 1. IMAP-Sync (automatisch)
 
-```
-IMAP-Server (Gmail, iCloud, etc.)
-       │
-       │ IMAP/SSL (:993)
-       ▼
-  OpenArchiver Backend
-       │
-       ├── Email-Metadaten ──────> PostgreSQL
-       ├── Email-Body (AES-256) ─> Dateisystem (/var/data/open-archiver/)
-       ├── Anhaenge ─────────────> Dateisystem (dedupliziert)
-       ├── Anhang-Text ──────────> Apache Tika (Extraktion) ─> Meilisearch
-       └── Volltext-Index ───────> Meilisearch
-```
+<p align="center">
+  <img src="images/imap-dataflow.svg" alt="IMAP-Sync Datenfluss" width="720">
+</p>
 
 ### 2. Proton Bridge (ueber TLS-Wrapper)
 
-```
-  Proton Bridge Docker
-  (STARTTLS, Port 1143)
-       │
-       │ STARTTLS
-       ▼
-  socat TLS-Wrapper
-  (SSL, Port 11143)
-       │
-       │ Implizites SSL
-       ▼
-  OpenArchiver Backend
-  (Generic IMAP, secure=true)
-```
+<p align="center">
+  <img src="images/proton-tls-flow.svg" alt="Proton Bridge TLS-Wrapper Datenfluss" width="400">
+</p>
 
 **Warum ein TLS-Wrapper?**
 
@@ -95,66 +42,23 @@ Das CA-Zertifikat wird via `NODE_EXTRA_CA_CERTS` in den Container gemountet.
 
 ### 3. Maildrop (Datei-Import)
 
-```
-  Windows/macOS/Linux Client
-       │
-       │ SMB/CIFS (Port 445)
-       ▼
-  Samba Share (/srv/maildrop/)
-       │
-       │ inotify-Polling (10s)
-       ▼
-  maildrop-watcher.sh
-       │
-       ├── Datei hochladen (POST /v1/upload)
-       └── Import erstellen (POST /v1/ingestion-sources)
-            │
-            ▼
-       OpenArchiver Backend
-       (EML/PST/MBOX Parsing)
-```
+<p align="center">
+  <img src="images/maildrop-flow.svg" alt="Maildrop Datei-Import Workflow" width="620">
+</p>
 
 ### 4. Windows PowerShell Import
 
-```
-  Windows PC (Outlook installiert)
-       │
-       │ Export-OutlookToOpenArchiver.ps1
-       │
-       ├── Outlook COM-Objekt ─> Account-Liste
-       ├── Windows Registry ───> IMAP-Einstellungen
-       ├── Benutzer-Eingabe ──> Passwoerter
-       │
-       │ REST API (HTTP)
-       ▼
-  OpenArchiver Backend
-  (POST /v1/ingestion-sources)
-```
+<p align="center">
+  <img src="images/windows-import-flow.svg" alt="Windows PowerShell Import" width="560">
+</p>
 
 ---
 
 ## Docker-Netzwerk
 
-```
-┌─────────────────────────────────────────────────────┐
-│  Host-Netzwerk (network_mode: host)                 │
-│                                                     │
-│  ┌───────────────────────────────────┐              │
-│  │  open-archiver                    │              │
-│  │  Lauscht auf: 0.0.0.0:3000       │              │
-│  │               0.0.0.0:4000       │              │
-│  └───────────────────────────────────┘              │
-│                                                     │
-│  ┌─────────────────────────────────────────────┐    │
-│  │  Bridge-Netzwerk: oa-net                    │    │
-│  │                                             │    │
-│  │  postgres    127.0.0.1:5432 ─> :5432        │    │
-│  │  valkey      127.0.0.1:6379 ─> :6379        │    │
-│  │  meilisearch 127.0.0.1:7700 ─> :7700        │    │
-│  │  tika        127.0.0.1:9998 ─> :9998        │    │
-│  └─────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="images/docker-network.svg" alt="Docker-Netzwerk Architektur" width="700">
+</p>
 
 OpenArchiver laeuft im **Host-Netzwerk** (`network_mode: host`), damit es direkt auf die Ports der anderen Container zugreifen kann. Die Support-Services (Postgres, Valkey, etc.) laufen in einem eigenen Bridge-Netzwerk und binden sich nur an `127.0.0.1`.
 

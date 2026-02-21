@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 350">
+  <defs>
+    <!-- Arrow marker for NFS arrow -->
+    <marker id="nfs-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Dark card background -->
+  <rect x="0" y="0" width="750" height="350" rx="16" ry="16" fill="#1e293b"/>
+
+  <!-- ===== LEFT SIDE: VORHER ===== -->
+
+  <!-- Section label -->
+  <text x="130" y="40" font-family="sans-serif" font-size="14" font-weight="bold" fill="#cbd5e1" text-anchor="middle">VORHER:</text>
+
+  <!-- Server box (slate gray) -->
+  <rect x="30" y="60" width="200" height="130" rx="10" ry="10" fill="#475569"/>
+
+  <!-- Server label -->
+  <text x="130" y="88" font-family="sans-serif" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">Server</text>
+
+  <!-- Divider line inside server box -->
+  <line x1="45" y1="98" x2="215" y2="98" stroke="#64748b" stroke-width="1"/>
+
+  <!-- Path text -->
+  <text x="130" y="125" font-family="monospace" font-size="11.5" fill="#ffffff" text-anchor="middle">/data/open-archiver/</text>
+  <text x="130" y="143" font-family="monospace" font-size="11.5" fill="#ffffff" text-anchor="middle">storage/</text>
+
+  <!-- (lokal) annotation -->
+  <text x="130" y="175" font-family="sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle" font-style="italic">(lokal)</text>
+
+  <!-- ===== CENTER: MIGRATION ARROW ===== -->
+
+  <!-- Arrow body (thick rounded rect) -->
+  <rect x="270" y="100" width="120" height="44" rx="6" ry="6" fill="#94a3b8"/>
+
+  <!-- Arrowhead triangle -->
+  <polygon points="390,95 390,149 425,122" fill="#94a3b8"/>
+
+  <!-- Migration label on the arrow -->
+  <text x="330" y="128" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Migration</text>
+
+  <!-- Small arrow icon hints (chevrons) -->
+  <text x="400" y="128" font-family="sans-serif" font-size="18" font-weight="bold" fill="#1e293b" text-anchor="middle">&gt;</text>
+
+  <!-- ===== RIGHT SIDE: NACHHER ===== -->
+
+  <!-- Section label -->
+  <text x="580" y="40" font-family="sans-serif" font-size="14" font-weight="bold" fill="#cbd5e1" text-anchor="middle">NACHHER:</text>
+
+  <!-- Server box (green) -->
+  <rect x="465" y="60" width="230" height="120" rx="10" ry="10" fill="#059669"/>
+
+  <!-- Server label -->
+  <text x="580" y="88" font-family="sans-serif" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">Server</text>
+
+  <!-- Divider line inside server box -->
+  <line x1="480" y1="98" x2="680" y2="98" stroke="#047857" stroke-width="1"/>
+
+  <!-- Path text -->
+  <text x="555" y="125" font-family="monospace" font-size="11.5" fill="#ffffff" text-anchor="middle">/data/open-archiver/</text>
+  <text x="555" y="143" font-family="monospace" font-size="11.5" fill="#ffffff" text-anchor="middle">storage/</text>
+
+  <!-- NFS Mount annotation (arrow pointing left) -->
+  <text x="555" y="165" font-family="sans-serif" font-size="11" fill="#d1fae5" text-anchor="middle" font-style="italic">&larr; NFS Mount</text>
+
+  <!-- NFS arrow (vertical, from server box down to NAS box) -->
+  <line x1="580" y1="180" x2="580" y2="228" stroke="#94a3b8" stroke-width="2.5" marker-end="url(#nfs-arrow)"/>
+
+  <!-- NFS label next to the arrow -->
+  <text x="605" y="210" font-family="sans-serif" font-size="13" font-weight="bold" fill="#cbd5e1" text-anchor="start">NFS</text>
+
+  <!-- NAS box (orange) -->
+  <rect x="490" y="238" width="180" height="85" rx="10" ry="10" fill="#d97706"/>
+
+  <!-- NAS label -->
+  <text x="580" y="268" font-family="sans-serif" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">NAS</text>
+
+  <!-- Divider line inside NAS box -->
+  <line x1="505" y1="278" x2="655" y2="278" stroke="#b45309" stroke-width="1"/>
+
+  <!-- NAS sub-labels -->
+  <text x="580" y="300" font-family="sans-serif" font-size="11" fill="#fef3c7" text-anchor="middle">Synology | TrueNAS | etc.</text>
+
+</svg>

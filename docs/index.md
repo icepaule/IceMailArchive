@@ -13,36 +13,9 @@ title: IceMailArchive
 
 IceMailArchive ist eine schluesselfertige Loesung zur Email-Archivierung, basierend auf [OpenArchiver](https://github.com/logiclabshq/open-archiver). Das Projekt buendelt alle Komponenten, Konfigurationen und Hilfsskripte, die fuer eine produktive Email-Archivierung benoetigt werden.
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    IceMailArchive                        │
-│                                                         │
-│  ┌──────────┐  ┌──────────┐  ┌───────────┐             │
-│  │  Gmail    │  │  iCloud  │  │ Outlook   │  IMAP-Sync  │
-│  │  IMAP     │  │  IMAP    │  │ .com IMAP │  (auto)     │
-│  └────┬─────┘  └────┬─────┘  └─────┬─────┘             │
-│       │              │              │                    │
-│       └──────────────┼──────────────┘                    │
-│                      │                                   │
-│  ┌──────────┐        ▼          ┌──────────────┐        │
-│  │  Proton  │  ┌──────────┐    │  Maildrop     │        │
-│  │  Bridge  ├─>│          │<───┤  (Samba/SMB)  │        │
-│  │ (Docker) │  │  Open    │    │  .zip/.pst    │        │
-│  └──────────┘  │ Archiver │    └──────────────┘        │
-│     TLS-       │          │                              │
-│     Wrapper    │  :3000   │    ┌──────────────┐         │
-│  ┌──────────┐  │  :4000   │    │  Windows     │         │
-│  │  socat   │  │          │<───┤  PowerShell  │         │
-│  │  :11143  │  └──┬──┬──┬─┘    │  Import      │         │
-│  └──────────┘     │  │  │      └──────────────┘         │
-│                   │  │  │                                │
-│  ┌────────┐  ┌────┘  │  └────┐                          │
-│  │Postgres│  │Valkey  │  Meili│  ┌──────┐               │
-│  │  :5432 │  │ :6379  │ :7700│  │ Tika │               │
-│  └────────┘  └────────┘──────┘  │ :9998│               │
-│                                  └──────┘               │
-└─────────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="images/architecture-overview.svg" alt="IceMailArchive Architektur-Uebersicht" width="800">
+</p>
 
 ---
 

@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 620" font-family="sans-serif">
+  <!-- Arrowhead marker definition -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <!-- Dark card background -->
+  <rect x="8" y="8" width="834" height="604" rx="16" fill="#1e293b"/>
+
+  <!-- Title -->
+  <text x="425" y="42" text-anchor="middle" fill="white" font-size="20" font-weight="bold">IceMailArchive</text>
+
+  <!-- ============================================ -->
+  <!-- TOP ROW: 4 IMAP Sources (blue boxes)         -->
+  <!-- ============================================ -->
+  <rect x="68" y="64" width="150" height="44" rx="8" fill="#2563eb"/>
+  <text x="143" y="91" text-anchor="middle" fill="white" font-size="12" font-weight="600">Gmail IMAP</text>
+
+  <rect x="238" y="64" width="150" height="44" rx="8" fill="#2563eb"/>
+  <text x="313" y="91" text-anchor="middle" fill="white" font-size="12" font-weight="600">iCloud IMAP</text>
+
+  <rect x="408" y="64" width="170" height="44" rx="8" fill="#2563eb"/>
+  <text x="493" y="91" text-anchor="middle" fill="white" font-size="12" font-weight="600">Outlook.com IMAP</text>
+
+  <rect x="598" y="64" width="170" height="44" rx="8" fill="#2563eb"/>
+  <text x="683" y="91" text-anchor="middle" fill="white" font-size="12" font-weight="600">Eigener IMAP-Srv</text>
+
+  <!-- Arrows from IMAP sources down to convergence point -->
+  <!-- Gmail -->
+  <line x1="143" y1="108" x2="143" y2="140" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- iCloud -->
+  <line x1="313" y1="108" x2="313" y2="140" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Outlook -->
+  <line x1="493" y1="108" x2="493" y2="140" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Eigener -->
+  <line x1="683" y1="108" x2="683" y2="140" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Convergence horizontal line -->
+  <line x1="143" y1="150" x2="683" y2="150" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Single arrow from convergence line down to OpenArchiver -->
+  <line x1="425" y1="150" x2="425" y2="218" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- IMAP/SSL label on convergence arrow -->
+  <text x="425" y="178" text-anchor="middle" fill="#cbd5e1" font-size="11">IMAP/SSL (:993)</text>
+
+  <!-- ============================================ -->
+  <!-- CENTER: OpenArchiver (green box)              -->
+  <!-- ============================================ -->
+  <rect x="305" y="228" width="240" height="80" rx="8" fill="#059669"/>
+  <text x="425" y="258" text-anchor="middle" fill="white" font-size="16" font-weight="bold">OpenArchiver</text>
+  <text x="385" y="280" text-anchor="middle" fill="#d1fae5" font-size="12">:3000 UI</text>
+  <text x="465" y="280" text-anchor="middle" fill="#d1fae5" font-size="12">:4000 API</text>
+
+  <!-- ============================================ -->
+  <!-- LEFT SIDE: Proton Bridge + socat              -->
+  <!-- ============================================ -->
+  <!-- Proton Bridge box -->
+  <rect x="20" y="220" width="130" height="50" rx="8" fill="#7c3aed"/>
+  <text x="85" y="242" text-anchor="middle" fill="white" font-size="11" font-weight="600">Proton Bridge</text>
+  <text x="85" y="257" text-anchor="middle" fill="#ddd6fe" font-size="10">(Docker)</text>
+
+  <!-- socat box -->
+  <rect x="170" y="226" width="100" height="38" rx="8" fill="#7c3aed"/>
+  <text x="220" y="242" text-anchor="middle" fill="white" font-size="11" font-weight="600">socat :11143</text>
+  <text x="220" y="256" text-anchor="middle" fill="#ddd6fe" font-size="10">TLS-Wrapper</text>
+
+  <!-- Arrow Proton Bridge -> socat -->
+  <line x1="150" y1="245" x2="160" y2="245" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrow-purple)"/>
+
+  <!-- Arrow socat -> OpenArchiver -->
+  <line x1="270" y1="245" x2="295" y2="258" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrow-purple)"/>
+
+  <!-- ============================================ -->
+  <!-- RIGHT TOP: Maildrop (Samba/SMB)               -->
+  <!-- ============================================ -->
+  <rect x="620" y="196" width="200" height="50" rx="8" fill="#7c3aed"/>
+  <text x="720" y="218" text-anchor="middle" fill="white" font-size="11" font-weight="600">Maildrop (Samba/SMB)</text>
+  <text x="720" y="234" text-anchor="middle" fill="#ddd6fe" font-size="10">.zip / .pst</text>
+
+  <!-- Arrow Maildrop -> OpenArchiver -->
+  <line x1="620" y1="236" x2="555" y2="255" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <!-- SMB/CIFS label -->
+  <text x="598" y="238" text-anchor="end" fill="#cbd5e1" font-size="10">SMB/CIFS</text>
+
+  <!-- ============================================ -->
+  <!-- RIGHT BOTTOM: Windows PowerShell Import       -->
+  <!-- ============================================ -->
+  <rect x="620" y="262" width="200" height="44" rx="8" fill="#7c3aed"/>
+  <text x="720" y="280" text-anchor="middle" fill="white" font-size="11" font-weight="600">Windows PowerShell</text>
+  <text x="720" y="294" text-anchor="middle" fill="#ddd6fe" font-size="10">Import</text>
+
+  <!-- Arrow PowerShell -> OpenArchiver -->
+  <line x1="620" y1="280" x2="555" y2="272" stroke="#a78bfa" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <!-- REST API label -->
+  <text x="598" y="272" text-anchor="end" fill="#cbd5e1" font-size="10">REST API</text>
+
+  <!-- ============================================ -->
+  <!-- ARROWS: OpenArchiver to bottom services       -->
+  <!-- ============================================ -->
+  <!-- Spread 4 arrows downward from OpenArchiver -->
+  <!-- PostgreSQL -->
+  <line x1="365" y1="308" x2="168" y2="390" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Valkey -->
+  <line x1="395" y1="308" x2="358" y2="390" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Meilisearch -->
+  <line x1="455" y1="308" x2="530" y2="390" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Apache Tika -->
+  <line x1="485" y1="308" x2="700" y2="390" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ============================================ -->
+  <!-- BOTTOM ROW: 4 Backend Services (orange boxes) -->
+  <!-- ============================================ -->
+  <!-- PostgreSQL -->
+  <rect x="78" y="400" width="170" height="50" rx="8" fill="#d97706"/>
+  <text x="163" y="422" text-anchor="middle" fill="white" font-size="12" font-weight="600">PostgreSQL</text>
+  <text x="163" y="439" text-anchor="middle" fill="#fef3c7" font-size="11">:5432</text>
+
+  <!-- Valkey -->
+  <rect x="268" y="400" width="170" height="50" rx="8" fill="#d97706"/>
+  <text x="353" y="422" text-anchor="middle" fill="white" font-size="12" font-weight="600">Valkey</text>
+  <text x="353" y="439" text-anchor="middle" fill="#fef3c7" font-size="11">:6379</text>
+
+  <!-- Meilisearch -->
+  <rect x="458" y="400" width="170" height="50" rx="8" fill="#d97706"/>
+  <text x="543" y="422" text-anchor="middle" fill="white" font-size="12" font-weight="600">Meilisearch</text>
+  <text x="543" y="439" text-anchor="middle" fill="#fef3c7" font-size="11">:7700</text>
+
+  <!-- Apache Tika -->
+  <rect x="648" y="400" width="170" height="50" rx="8" fill="#d97706"/>
+  <text x="733" y="422" text-anchor="middle" fill="white" font-size="12" font-weight="600">Apache Tika</text>
+  <text x="733" y="439" text-anchor="middle" fill="#fef3c7" font-size="11">:9998</text>
+
+  <!-- ============================================ -->
+  <!-- LEGEND                                        -->
+  <!-- ============================================ -->
+  <rect x="30" y="478" width="790" height="120" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <text x="425" y="502" text-anchor="middle" fill="#94a3b8" font-size="12" font-weight="600">LEGEND</text>
+
+  <!-- Row 1 -->
+  <rect x="60" y="514" width="16" height="16" rx="3" fill="#2563eb"/>
+  <text x="84" y="527" fill="#e2e8f0" font-size="11">External IMAP Sources</text>
+
+  <rect x="280" y="514" width="16" height="16" rx="3" fill="#059669"/>
+  <text x="304" y="527" fill="#e2e8f0" font-size="11">Core Application</text>
+
+  <rect x="480" y="514" width="16" height="16" rx="3" fill="#d97706"/>
+  <text x="504" y="527" fill="#e2e8f0" font-size="11">Backend Services (Docker)</text>
+
+  <!-- Row 2 -->
+  <rect x="60" y="544" width="16" height="16" rx="3" fill="#7c3aed"/>
+  <text x="84" y="557" fill="#e2e8f0" font-size="11">Optional Components</text>
+
+  <line x1="280" y1="552" x2="310" y2="552" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="320" y="557" fill="#e2e8f0" font-size="11">Data Flow</text>
+
+  <text x="480" y="557" fill="#64748b" font-size="10">All services run as Docker containers via docker-compose</text>
+
+  <!-- Subtitle / version -->
+  <text x="425" y="582" text-anchor="middle" fill="#475569" font-size="10">IceMailArchive Architecture Overview</text>
+</svg>
